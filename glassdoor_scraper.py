@@ -13,6 +13,8 @@ from selenium.common.exceptions import NoSuchElementException, ElementClickInter
 from selenium import webdriver
 import time
 import pandas as pd
+from selenium.webdriver.common.action_chains import ActionChains
+from selenium.common.exceptions import ElementNotInteractableException, StaleElementReferenceException
 
 
 def get_jobs(keyword, num_jobs, verbose, path, sleep_time):
@@ -22,7 +24,7 @@ def get_jobs(keyword, num_jobs, verbose, path, sleep_time):
     options = webdriver.ChromeOptions()
 
     # Uncomment the line below if you'd like to scrape without a new Chrome window every time.
-    # options.add_argument('headless')
+    options.add_argument('headless')
 
     # Change the path to where chromedriver is in your home folder.
     driver = webdriver.Chrome(
@@ -66,7 +68,11 @@ def get_jobs(keyword, num_jobs, verbose, path, sleep_time):
             if len(jobs) >= num_jobs:
                 break
 
-            job_button.click()  # You might
+            try:
+                job_button.click()  # You might
+            except ElementNotInteractableException:
+                break
+            
             time.sleep(1)
             collected_successfully = False
 
@@ -82,12 +88,12 @@ def get_jobs(keyword, num_jobs, verbose, path, sleep_time):
 
             try:
                 salary_estimate = driver.find_element_by_xpath('.//div[@class="salary"]').text
-            except NoSuchElementException:
+            except (NoSuchElementException, StaleElementReferenceException):
                 salary_estimate = -1  # You need to set a "not found value. It's important."
 
             try:
                 rating = driver.find_element_by_xpath('.//span[@class="rating"]').text
-            except NoSuchElementException:
+            except (NoSuchElementException, StaleElementReferenceException): #https://www.selenium.dev/exceptions/
                 rating = -1  # You need to set a "not found value. It's important."
 
             # Printing for debugging
@@ -112,52 +118,52 @@ def get_jobs(keyword, num_jobs, verbose, path, sleep_time):
                     # </div>
                     headquarters = driver.find_element_by_xpath(
                         './/div[@class="infoEntity"]//label[text()="Headquarters"]//following-sibling::*').text
-                except NoSuchElementException:
+                except (NoSuchElementException, StaleElementReferenceException):
                     headquarters = -1
 
                 try:
                     size = driver.find_element_by_xpath(
                         './/div[@class="infoEntity"]//label[text()="Size"]//following-sibling::*').text
-                except NoSuchElementException:
+                except (NoSuchElementException, StaleElementReferenceException):
                     size = -1
 
                 try:
                     founded = driver.find_element_by_xpath(
                         './/div[@class="infoEntity"]//label[text()="Founded"]//following-sibling::*').text
-                except NoSuchElementException:
+                except (NoSuchElementException, StaleElementReferenceException):
                     founded = -1
 
                 try:
                     type_of_ownership = driver.find_element_by_xpath(
                         './/div[@class="infoEntity"]//label[text()="Type"]//following-sibling::*').text
-                except NoSuchElementException:
+                except (NoSuchElementException, StaleElementReferenceException):
                     type_of_ownership = -1
 
                 try:
                     industry = driver.find_element_by_xpath(
                         './/div[@class="infoEntity"]//label[text()="Industry"]//following-sibling::*').text
-                except NoSuchElementException:
+                except (NoSuchElementException, StaleElementReferenceException):
                     industry = -1
 
                 try:
                     sector = driver.find_element_by_xpath(
                         './/div[@class="infoEntity"]//label[text()="Sector"]//following-sibling::*').text
-                except NoSuchElementException:
+                except (NoSuchElementException, StaleElementReferenceException):
                     sector = -1
 
                 try:
                     revenue = driver.find_element_by_xpath(
                         './/div[@class="infoEntity"]//label[text()="Revenue"]//following-sibling::*').text
-                except NoSuchElementException:
+                except (NoSuchElementException, StaleElementReferenceException):
                     revenue = -1
 
                 try:
                     competitors = driver.find_element_by_xpath(
                         './/div[@class="infoEntity"]//label[text()="Competitors"]//following-sibling::*').text
-                except NoSuchElementException:
+                except (NoSuchElementException, StaleElementReferenceException):
                     competitors = -1
 
-            except NoSuchElementException:  # Rarely, some job postings do not have the "Company" tab.
+            except (NoSuchElementException, StaleElementReferenceException):  # Rarely, some job postings do not have the "Company" tab.
                 headquarters = -1
                 size = -1
                 founded = -1
@@ -197,7 +203,7 @@ def get_jobs(keyword, num_jobs, verbose, path, sleep_time):
         # Clicking on the "next page" button
         try:
             driver.find_element_by_xpath('.//li[@class="next"]//a').click()
-        except NoSuchElementException:
+        except (NoSuchElementException, StaleElementReferenceException):
             print("Scraping terminated before reaching target number of jobs. Needed {}, got {}.".format(num_jobs,
                                                                                                          len(jobs)))
             break
