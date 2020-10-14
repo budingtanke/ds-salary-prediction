@@ -3,12 +3,12 @@
 """
 Created on Mon Oct 12 10:59:04 2020
 
-@author: linhan
+@author: Han
 """
 
 import pandas as pd
 
-df = pd.read_csv('glassdoor_raw.csv')
+df = pd.read_csv('data/glassdoor_raw.csv')
 
 # =============================================================================
 # Job Title             object
@@ -31,6 +31,7 @@ df = pd.read_csv('glassdoor_raw.csv')
 # location get state
 # age of company
 # parsing job description
+# job title
 # =============================================================================
 print(df.columns)
 print(df.dtypes)
@@ -47,6 +48,7 @@ salary = salary.apply(lambda x: x.lower().replace('per hour','').replace('(emplo
 min_salary = salary.apply(lambda x: int(x.split('-')[0]))
 max_salary = salary.apply(lambda x: int(x.split('-')[1]))
 df['avg_salary'] = (min_salary + max_salary)/2
+df['avg_salary'] = df.apply(lambda x: x['avg_salary'] * 2 if x['if_hourly'] == 1 else x['avg_salary'], axis = 1)
 
 ################ company name ###############
 
@@ -56,6 +58,7 @@ df['company_text'] = df.apply(lambda x: x['Company Name'][:-4] if (x['Rating'] !
 ################ location get state ###############
 df['state'] = df['Location'].apply(lambda x: x.split(',')[1].strip())
 df['state'].value_counts()
+df.loc[df['state']=='Los Angeles', 'state'] = 'CA'
 
 ################ age of company ###############
 df['age'] = df['Founded'].apply(lambda x: x if x < 0 else 2020-x)
@@ -87,6 +90,56 @@ df['pytorch'] = df['Job Description'].apply(lambda x: 1 if 'pytorch' in x.lower(
 df['keras'] = df['Job Description'].apply(lambda x: 1 if 'keras' in x.lower() else 0)
 
 
-df.to_csv('glassdoor_cleaned.csv', index=False)
+################ job title ###############
+def title_simplifier(title):
+    if ('scientist' in title.lower()) or ('data science' in title.lower()):
+        return 'data scientist'
+    elif 'data engineer' in title.lower():
+        return 'data engineer'
+    elif 'analyst' in title.lower():
+        return 'data analyst' 
+    elif ('machine learning' in title.lower()) or ('mle' in title.lower()):
+        return 'machine learning engineer'
+    else:
+        return 'others'
+
+
+def seniority(title):
+    if 'sr' in title.lower() or 'senior' in title.lower() or 'lead' in title.lower() or 'principal' in title.lower():
+        return 'senior'
+    elif 'jr' in title.lower() or 'junior' in title.lower():
+        return 'junior'
+    elif 'manager' in title.lower():
+        return 'manager'
+    elif 'director' in title.lower():
+        return 'director'
+    else:
+        return 'others'
+    
+df['title_simple'] = df['Job Title'].apply(title_simplifier)
+df['seniority'] = df['Job Title'].apply(seniority)
+
+df['title_simple'].value_counts()
+df['seniority'].value_counts()
+
+
+################ Type of ownership ####################
+df['Type of ownership'].value_counts()
+df['ownership'] = df['Type of ownership'].apply(lambda x: x if x in ['Company - Public', 'Company - Private', 'Subsidiary or Business Segment', 'Nonprofit Organization', 'Government'] else 'other')
+df['ownership'].value_counts()
+
+
+################ Industry ####################
+df['Industry'].value_counts()
+df['industry'] = df['Industry'].apply(lambda x: x if x in ['Biotech & Pharmaceuticals', 'Aerospace & Defense', 'Internet', 'Computer Hardware & Software', 'IT Services', 'Health Care Services & Hospitals', 'Consulting', 'Enterprise Software & Network Solutions', 'Advertising & Marketing', 'Federal Agencies', 'Banks & Credit Unions', 'Publishing', 'Insurance Carriers'] else 'others')
+
+################### Sector ###################
+df['Sector'].value_counts()
+df['sector'] = df['Sector'].apply(lambda x: x if x in ['Biotech & Pharmaceuticals', 'Information Technology', 'Business Services', 'Aerospace & Defense', 'Finance', 'Health Care', 'Manufacturing', 'Insurance', 'Media', 'Retail', 'Government', 'Education', 'Oil, Gas, Energy & Utilities'] else 'others')
+
+
+df_cleaned = df[['Rating', 'Size', 'ownership', 'industry', 'sector', 'Revenue', 'avg_salary', 'company_text', 'state','age', 'sql', 'python', 'java', 'sas', 'matlab', 'javascript', 'c++', 'scala', 'hadoop', 'spark', 'hive', 'deep_learning', 'nlp', 'cv', 'tensorflow', 'pytorch', 'keras', 'title_simple', 'seniority']]
+
+df_cleaned.to_csv('data/glassdoor_cleaned.csv', index=False)
 
 

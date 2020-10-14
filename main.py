@@ -14,4 +14,4 @@ PATH = "/Users/linhan/Desktop/Han/Learning/Python/Softwares/chromedriver"
 
 #This line will open a new chrome window and start the scraping.
 df = gs.get_jobs("data scientist", 1000, False, PATH, 10)
-df.to_csv('glassdoor_raw.csv', index=False)
+df.to_csv('./data/glassdoor_raw.csv', index=False)
