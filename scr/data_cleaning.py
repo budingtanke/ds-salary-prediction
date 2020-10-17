@@ -32,6 +32,8 @@ df = pd.read_csv('../data/glassdoor_raw.csv')
 # age of company
 # parsing job description
 # job title
+# size
+# revenue
 # =============================================================================
 print(df.columns)
 print(df.dtypes)
@@ -146,8 +148,14 @@ df['industry'] = df['Industry'].apply(lambda x: x if x in ['Biotech & Pharmaceut
 df['Sector'].value_counts()
 df['sector'] = df['Sector'].apply(lambda x: x if x in ['Biotech & Pharmaceuticals', 'Information Technology', 'Business Services', 'Aerospace & Defense', 'Finance', 'Health Care', 'Manufacturing', 'Insurance', 'Media', 'Retail', 'Government', 'Education', 'Oil, Gas, Energy & Utilities'] else 'others')
 
+################### size ###################
+df['size'] = df['Size'].apply(lambda x: x.replace('Employees', '').strip())
 
-df_cleaned = df[['Rating', 'Size', 'ownership', 'industry', 'sector', 'Revenue', 'avg_salary', 'company_text', 'state','age', 'sql', 'python', 'java', 'sas', 'matlab', 'javascript', 'c++', 'scala', 'hadoop', 'spark', 'hive', 'deep_learning', 'nlp', 'cv', 'tensorflow', 'pytorch', 'keras', 'title_simple', 'seniority']]
+################### revenue ###################
+df['revenue'] = df['Revenue'].apply(lambda x: x.replace('(USD)', '').strip())
+
+
+df_cleaned = df[['Rating', 'size', 'ownership', 'industry', 'sector', 'revenue', 'avg_salary', 'company_text', 'state','age', 'sql', 'python', 'java', 'sas', 'matlab', 'javascript', 'c++', 'scala', 'hadoop', 'spark', 'hive', 'deep_learning', 'nlp', 'cv', 'tensorflow', 'pytorch', 'keras', 'title_simple', 'seniority']]
 
 df_cleaned.to_csv('../data/glassdoor_cleaned.csv', index=False)
 
