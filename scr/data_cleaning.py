@@ -34,6 +34,7 @@ df = pd.read_csv('../data/glassdoor_raw.csv')
 # job title
 # size
 # revenue
+# length of job description
 # =============================================================================
 print(df.columns)
 print(df.dtypes)
@@ -154,8 +155,10 @@ df['size'] = df['Size'].apply(lambda x: x.replace('Employees', '').strip())
 ################### revenue ###################
 df['revenue'] = df['Revenue'].apply(lambda x: x.replace('(USD)', '').strip())
 
+#################### job description ##################
+df['description'] = df['Job Description'].apply(lambda x: len(x))
 
-df_cleaned = df[['Rating', 'size', 'ownership', 'industry', 'sector', 'revenue', 'avg_salary', 'company_text', 'state','age', 'sql', 'python', 'java', 'sas', 'matlab', 'javascript', 'c++', 'scala', 'hadoop', 'spark', 'hive', 'deep_learning', 'nlp', 'cv', 'tensorflow', 'pytorch', 'keras', 'title_simple', 'seniority']]
+df_cleaned = df[['Rating', 'size', 'ownership', 'industry', 'sector', 'revenue', 'avg_salary', 'company_text', 'state','age', 'sql', 'python', 'java', 'sas', 'matlab', 'javascript', 'c++', 'scala', 'hadoop', 'spark', 'hive', 'deep_learning', 'nlp', 'cv', 'tensorflow', 'pytorch', 'keras', 'title_simple', 'seniority', 'description']]
 
 df_cleaned.to_csv('../data/glassdoor_cleaned.csv', index=False)
 
