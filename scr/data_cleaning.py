@@ -8,7 +8,7 @@ Created on Mon Oct 12 10:59:04 2020
 
 import pandas as pd
 
-df = pd.read_csv('data/glassdoor_raw.csv')
+df = pd.read_csv('../data/glassdoor_raw.csv')
 
 # =============================================================================
 # Job Title             object
@@ -38,20 +38,27 @@ print(df.dtypes)
 
 ################# salary #####################
 
+# remove records withouth salary
 df = df[df['Salary Estimate'] != '-1']
 
+# remove text in salary
 df['if_hourly'] = df['Salary Estimate'].apply(lambda x: 1 if 'per hour' in x.lower() else 0)
 df['if_employer'] = df['Salary Estimate'].apply(lambda x: 1 if 'employer' in x.lower() else 0)
 salary = df['Salary Estimate'].apply(lambda x: x.replace('(Glassdoor est.)', '').replace('\n','').replace('$','').replace('K',''))
 salary = salary.apply(lambda x: x.lower().replace('per hour','').replace('(employer est.)','').replace('employer provided salary:','').strip())
 
+# get avarage salary
 min_salary = salary.apply(lambda x: int(x.split('-')[0]))
 max_salary = salary.apply(lambda x: int(x.split('-')[1]))
 df['avg_salary'] = (min_salary + max_salary)/2
-df['avg_salary'] = df.apply(lambda x: x['avg_salary'] * 2 if x['if_hourly'] == 1 else x['avg_salary'], axis = 1)
+
+# convert hourly salary to yearly
+df['avg_salary'] = df.apply(lambda x: x['avg_salary'] * 2000/1000 if x['if_hourly'] == 1 else x['avg_salary'], axis = 1)
+
 
 ################ company name ###############
 
+# remove rating
 df['company_text'] = df.apply(lambda x: x['Company Name'][:-4] if (x['Rating'] != -1) else x['Company Name'], axis=1)
 
 
@@ -64,7 +71,7 @@ df.loc[df['state']=='Los Angeles', 'state'] = 'CA'
 df['age'] = df['Founded'].apply(lambda x: x if x < 0 else 2020-x)
 
 ################ parsing job description ###############
-print(df['Job Description'][0])
+#print(df['Job Description'][1])
 
 # programming languages
 df['sql'] = df['Job Description'].apply(lambda x: 1 if 'sql' in x.lower() else 0)
@@ -113,6 +120,8 @@ def seniority(title):
         return 'manager'
     elif 'director' in title.lower():
         return 'director'
+    elif 'lead' in title.lower():
+        return 'lead'
     else:
         return 'others'
     
@@ -140,6 +149,6 @@ df['sector'] = df['Sector'].apply(lambda x: x if x in ['Biotech & Pharmaceutical
 
 df_cleaned = df[['Rating', 'Size', 'ownership', 'industry', 'sector', 'Revenue', 'avg_salary', 'company_text', 'state','age', 'sql', 'python', 'java', 'sas', 'matlab', 'javascript', 'c++', 'scala', 'hadoop', 'spark', 'hive', 'deep_learning', 'nlp', 'cv', 'tensorflow', 'pytorch', 'keras', 'title_simple', 'seniority']]
 
-df_cleaned.to_csv('data/glassdoor_cleaned.csv', index=False)
+df_cleaned.to_csv('../data/glassdoor_cleaned.csv', index=False)
 
 
