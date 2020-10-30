@@ -1,0 +1,121 @@
+,features,coef
+0,Rating,3.684969752347628
+1,age,2.440006732451228
+2,sql,-0.14085489669239723
+3,python,2.929236761737839
+4,java,-2.7012775701760714
+5,sas,-0.0
+6,matlab,0.0
+7,javascript,-0.0
+8,c++,4.767211425960631
+9,scala,1.2402262116657432
+10,hadoop,-0.0
+11,spark,0.9897196930142258
+12,hive,0.4955641839396126
+13,deep_learning,-0.0
+14,nlp,-0.0
+15,cv,1.0907925498032827
+16,tensorflow,0.0
+17,pytorch,-0.0
+18,keras,0.0
+19,description,-1.412897840941328
+20,size_1 to 50,-7.011760974835133
+21,size_10000+,-4.351408276983175
+22,size_1001 to 5000,-0.0
+23,size_201 to 500,0.8535800216853532
+24,size_5001 to 10000,19.438892618058762
+25,size_501 to 1000,0.0
+26,size_51 to 200,-4.369507101333107
+27,size_Unknown,0.0
+28,ownership_Company - Private,3.5821351348737305
+29,ownership_Company - Public,-0.0
+30,ownership_Government,0.0
+31,ownership_Nonprofit Organization,0.0
+32,ownership_Subsidiary or Business Segment,-4.230664137301963
+33,ownership_other,-0.0
+34,industry_Advertising & Marketing,0.0
+35,industry_Aerospace & Defense,-0.0
+36,industry_Banks & Credit Unions,-0.0
+37,industry_Biotech & Pharmaceuticals,-0.5772470328221123
+38,industry_Computer Hardware & Software,0.0
+39,industry_Consulting,-0.0
+40,industry_Enterprise Software & Network Solutions,0.0
+41,industry_Federal Agencies,11.092289407483023
+42,industry_Health Care Services & Hospitals,-11.08662633027771
+43,industry_IT Services,-3.265137064910008
+44,industry_Insurance Carriers,2.077625647494222
+45,industry_Internet,4.602374941473828
+46,industry_Publishing,0.0
+47,industry_others,-5.795439872642904
+48,sector_Aerospace & Defense,-0.0
+49,sector_Biotech & Pharmaceuticals,-0.7226363975743302
+50,sector_Business Services,-0.0
+51,sector_Education,-0.0
+52,sector_Finance,11.360700831303099
+53,sector_Government,0.7155331910705295
+54,sector_Health Care,-0.5570243692984151
+55,sector_Information Technology,7.7063589449254515
+56,sector_Insurance,0.0
+57,sector_Manufacturing,0.0
+58,sector_Media,0.0
+59,"sector_Oil, Gas, Energy & Utilities",-0.0
+60,sector_Retail,34.170695351338885
+61,sector_others,0.0
+62,revenue_$1 to $2 billion,0.0
+63,revenue_$1 to $5 million,1.0212290857010395
+64,revenue_$10 to $25 million,-0.006206193121484558
+65,revenue_$10+ billion,15.548061947274304
+66,revenue_$100 to $500 million,-0.0
+67,revenue_$2 to $5 billion,-15.018111405948197
+68,revenue_$25 to $50 million,-0.0
+69,revenue_$5 to $10 billion,0.0
+70,revenue_$5 to $10 million,-0.0
+71,revenue_$50 to $100 million,-0.0
+72,revenue_$500 million to $1 billion,0.0
+73,revenue_Less than $1 million,-0.0
+74,revenue_Unknown / Non-Applicable,2.209264971679177
+75,state_AL,-0.0
+76,state_AR,-0.0
+77,state_AZ,6.307980009644888
+78,state_CA,34.23191276450015
+79,state_CO,-0.0
+80,state_CT,10.691132493854973
+81,state_DC,6.004846902444676
+82,state_DE,-0.0
+83,state_FL,-0.0
+84,state_GA,0.0
+85,state_IL,-0.0
+86,state_IN,0.0
+87,state_KS,-0.0
+88,state_KY,-0.0
+89,state_MA,12.941753894628993
+90,state_MD,-2.039460673633592
+91,state_MI,0.0
+92,state_MN,0.0
+93,state_MO,-1.8391965045109382
+94,state_MS,-0.0
+95,state_NC,-0.0
+96,state_NE,0.0
+97,state_NH,0.0
+98,state_NJ,0.2161112071864643
+99,state_NM,0.0
+100,state_NV,-0.0
+101,state_NY,23.454271464638047
+102,state_OH,0.0
+103,state_OR,-0.0
+104,state_PA,-0.0
+105,state_TN,-0.0
+106,state_TX,0.0
+107,state_UT,-0.0
+108,state_VA,-4.871759199808424
+109,state_WA,0.0
+110,state_WI,-2.3293972265493794
+111,title_simple_data analyst,-0.0
+112,title_simple_data engineer,-3.4869385964838666
+113,title_simple_data scientist,0.0
+114,title_simple_others,0.0
+115,seniority_director,3.33003040530922
+116,seniority_junior,-0.0
+117,seniority_manager,-0.0
+118,seniority_others,-29.046459561489055
+119,seniority_senior,0.0
