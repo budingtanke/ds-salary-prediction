@@ -166,12 +166,24 @@ print(mean_absolute_error(y_test,predict_lr))
 print(mean_absolute_error(y_test,predict_lasso))
 print(mean_absolute_error(y_test,predict_rf))
 
-mean_absolute_error(y_test,(predict_rf+predict_lasso )/2)
 
-with open('./output/best_rf', 'wb') as f:
+################ store model and test value for Flask API ###############
+
+
+with open('./scr/FlaskAPI/models/best_rf.p', 'wb') as f:
     pickle.dump(best_rf, f)
     
     
-with open('./output/best_rf', 'rb') as f:
+with open('./scr/FlaskAPI/models/best_rf.p', 'rb') as f:
     model = pickle.load(f)
+    
+test_value = list(X_test.iloc[0,:].values)
+model.predict(np.array(test_value).reshape(1,-1))[0]
+with open('models/test_value.p', 'wb') as f:
+    pickle.dump(test_value, f)
+    
+with open('models/test_value.p', 'rb') as f:
+    X = pickle.load(f)
+    
 
+model.predict(X)
