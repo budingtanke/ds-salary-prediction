@@ -15,7 +15,7 @@ from sklearn.model_selection import cross_val_score
 from sklearn.model_selection import KFold
 from sklearn.model_selection import GridSearchCV
 from sklearn.preprocessing import StandardScaler
-from sklearn.metrics import mean_absolute_error
+from sklearn.metrics import mean_absolute_error, r2_score
 import statsmodels.api as sm
 import matplotlib.pyplot as plt
 import sys
@@ -162,9 +162,14 @@ best_rf = RandomForestRegressor(criterion='mse', n_estimators = 260, max_feature
 best_rf.fit(X_train, y_train)
 predict_rf = best_rf.predict(X_test)
 
-print(mean_absolute_error(y_test,predict_lr))
-print(mean_absolute_error(y_test,predict_lasso))
-print(mean_absolute_error(y_test,predict_rf))
+print(mean_absolute_error(y_test,predict_lr)) # 18.83
+print(mean_absolute_error(y_test,predict_lasso)) # 19.08
+print(mean_absolute_error(y_test,predict_rf)) # 15.43
+
+# 0.59
+print(r2_score(y_test,predict_rf))
+
+
 
 
 ################ store model and test value for Flask API ###############
